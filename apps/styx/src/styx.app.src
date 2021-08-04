@@ -1,0 +1,15 @@
+{application, styx,
+ [{description, "Ory Kratos/Hydra Lightweight erlang frontend"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, {styx_app, []}},
+  {applications,
+   [kernel,
+    stdlib
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {licenses, ["Apache 2.0"]},
+  {links, []}
+ ]}.
