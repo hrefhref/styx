@@ -1,0 +1,3 @@
+<div>
+  <button type="{{input_type}}" class="btn-submit" name="{{input_name}}" value="{{input_value}}">{{label}}</button>
+</div>

@@ -1,0 +1,18 @@
+<div>
+  {% if label %}
+  <label for="{{input_name}}" class="label">
+         {{label}}
+         {% if input_required %}<span class="text-alert">*</span>{% endif %}
+  </label>
+  {% endif %}
+
+  <div class="mt-1">
+    <input name="{{input_name}}"
+           type="{{input_type}}"
+           {% if autocomplete %}autocomplete="{{autocomplete}}"{% endif %}
+           {% if input_value %}value="{{input_value}}"{% endif %}
+           {% if input_required %}required{% endif %}
+           {% if input_disabled %}disabled{% endif %}
+           class="input">
+  </div>
+</div>

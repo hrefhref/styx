@@ -1,0 +1,17 @@
+<div class="header">
+  <h2>
+    Recover Account
+  </h2>
+  <p>
+    Or
+    <a href="/login">
+      login
+    </a>
+  </p>
+</div>
+
+<div class="mt-8">
+
+  <div class="mt-6">{{form | safe}}</div>
+
+</div>

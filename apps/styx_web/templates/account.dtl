@@ -1,0 +1,17 @@
+<div class="header">
+  <h2>
+    Your Account
+  </h2>
+  <p>
+    Or
+    <a href="/account/logout">
+      logout
+    </a>
+  </p>
+</div>
+
+<div class="mt-8">
+
+  <div class="mt-6">{{form | safe}}</div>
+
+</div>

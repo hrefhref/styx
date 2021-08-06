@@ -1,0 +1,57 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+.root {
+    @apply min-h-screen bg-white flex dark:bg-gray-900;
+}
+
+.main {
+    @apply flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24;
+}
+
+.container {
+    @apply mx-auto w-full max-w-sm lg:w-96;
+}
+
+.container > h1 {
+    @apply w-auto text-2xl font-extrabold text-purple-900 mb-8 dark:text-purple-400;
+}
+
+.container > .header > h2 {
+    @apply text-3xl font-bold text-gray-900 dark:text-gray-400;
+}
+.container > .header > p {
+    @apply mt-2 text-sm text-gray-600 dark:text-gray-500;
+}
+.container > .header > p > a {
+    @apply font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300;
+}
+
+.background {
+    @apply hidden lg:block relative w-0 flex-1;
+}
+
+.background > img {
+    @apply absolute inset-0 h-full w-full object-cover;
+}
+
+.form-message {
+    @apply text-sm font-bold;
+}
+.text-error, .text-alert {
+    @apply text-red-800 dark:text-red-300;
+}
+
+.input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:border-gray-700 dark:placeholder-gray-800 dark:bg-gray-400 dark:border-gray-500 dark:focus:ring-indigo-500 dark:focus:border-indigo-500;
+}
+
+.btn-submit {
+    @apply w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:hover:bg-indigo-500 dark:focus:ring-indigo-300;
+}
+
+.label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}

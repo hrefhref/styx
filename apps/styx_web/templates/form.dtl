@@ -1,0 +1,6 @@
+<form action="{{action}}" method="POST" class="space-y-6">
+  <div>{% for m in messages %}
+    <div class="form-message text-{{m.type}}">{{m.text}}</div>
+  {% endfor %}</div>
+      {{inputs | safe }}
+</form>

@@ -1,0 +1,8 @@
+<div class="header">
+  <h2>
+    {{ status }}
+  </h2>
+  <p class="text-error">
+    {{ message }}
+  </p>
+</div>

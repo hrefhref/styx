@@ -1,0 +1,21 @@
+{
+  "name": "styx-assets",
+  "version": "0.0.0",
+  "description": "Styx frontend files",
+  "scripts": {
+    "deploy-css": "NODE_ENV=production tailwindcss --postcss --minify -i app.css -o ../apps/styx_web/priv/assets/app.css",
+    "watch-css": "NODE_ENV=dev tailwindcss --input=app.css --output=../apps/styx_web/priv/assets/app.css --postcss --watch",
+    "deploy-js": "NODE_ENV=production esbuild app.js --bundle --minify --target=es2016 --outfile=../apps/styx_web/priv/assets/app.js",
+    "watch-js": "NODE_ENV=dev esbuild app.js --bundle --sourcemap=inline --watch --outfile=../apps/styx_web/priv/assets/app.js",
+    "watch": "NODE_ENV=dev concurrently npm:watch-css npm:watch-js",
+    "deploy": "NODE_ENV=dev concurrently npm:deploy-css npm:watch-css"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.0",
+    "concurrently": "^6.2.0",
+    "esbuild": "^0.12.17",
+    "postcss": "^8.3.5",
+    "postcss-import": "^14.0.2",
+    "tailwindcss": "^2.2.7"
+  }
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% if page_title %}{{ page_title }} - {% endif %}{{site_title}}</title>
+  <link rel="stylesheet" href="/account/app.css">
+</head>
+<body>
+  <div class="root">
+    <div class="main">
+      <div class="container">
+        <h1><a href="/">{{site_title}}</a></h1>
+        {{ inner | safe }}
+      </div>
+    </div>
+    <div class="background">
+      <img src="{{background_image_url}}" alt="">
+    </div>
+  </div>
+</body>
+</html>

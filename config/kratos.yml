@@ -1,0 +1,139 @@
+version: v0.7.1-alpha.1
+
+#dsn: memory
+dsn: "sqlite:///Users/href/dev/styx/priv/kratos.sqlite?_fk=true&mode=rwc"
+
+
+serve:
+  public:
+    base_url: http://127.0.0.1:4433/
+    host: '127.0.0.1'
+    port: 4433
+    cors:
+      enabled: true
+  admin:
+    host: '127.0.0.1'
+    port: 4434
+    base_url: http://kratos:4434/
+
+
+selfservice:
+  default_browser_return_url: http://127.0.0.1:5000/launchpad
+  whitelisted_return_urls:
+    - http://127.0.0.1:5000
+
+  methods:
+    link:
+      enabled: true
+    password:
+      enabled: true
+      config:
+        max_breaches: 0
+        ignore_network_errors: false
+        haveibeenpwned_enabled: true
+    oidc:
+      enabled: true
+      config:
+        providers: []
+    profile:
+      enabled: true
+
+  flows:
+    error:
+      ui_url: http://127.0.0.1:5000/account/error
+
+    settings:
+      ui_url: http://127.0.0.1:5000/account
+      privileged_session_max_age: 15m
+
+    recovery:
+      enabled: true
+      ui_url: http://127.0.0.1:5000/account/recovery
+
+    verification:
+      enabled: true
+      ui_url: http://127.0.0.1:5000/account/verification
+      after:
+        default_browser_return_url: http://127.0.0.1:5000/launchpad
+
+    logout:
+      after:
+        default_browser_return_url: http://127.0.0.1:5000/
+
+    login:
+      ui_url: http://127.0.0.1:5000/login
+      lifespan: 15m
+
+    registration:
+      lifespan: 15m
+      ui_url: http://127.0.0.1:5000/register
+      #before:
+      #  hooks:
+      #    - hook: web_hook
+      #      config:
+      #        url: http://a.aaa
+      #        method: ''
+      #        auth:
+      #          type: api_key
+      #          config:
+      #            name: ''
+      #            value: ''
+      #            in: header
+      #        body: ''
+      after:
+        password:
+          hooks:
+            -
+              hook: session
+        oidc:
+          hooks:
+            - hook: session
+        hooks:
+          - hook: web_hook
+            config:
+              url: http://a.aaa
+              method: ''
+              auth:
+                type: api_key
+                config:
+                  name: ''
+                  value: ''
+                  in: header
+              body: ''
+
+
+
+log:
+  level: debug
+  format: text
+  leak_sensitive_values: true
+
+secrets:
+  cookie:
+    - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+
+session:
+  cookie:
+    name: 'erlconn_session'
+    persistent: true
+    path: ''
+    same_site: Strict
+    domain: ''
+
+hashers:
+  argon2:
+    parallelism: 1
+    memory: 128MB
+    iterations: 2
+    salt_length: 16
+    key_length: 16
+
+identity:
+  default_schema_url: file:///Users/href/dev/styx/priv/kratos/identity.schema.json
+
+courier:
+  smtp:
+    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
+    from_name: Erlang Connection
+    from_address: accounts@erlang-connection.eu
+  template_override_path: /Users/href/dev/styx/priv/kratos/courier-templates/

@@ -1,0 +1,17 @@
+<div class="header">
+  <h2>
+    Register an account
+  </h2>
+  <p>
+    Or
+    <a href="/login">
+      sign in
+    </a>
+  </p>
+</div>
+
+<div class="mt-8">
+
+  <div class="mt-6">{{form | safe}}</div>
+
+</div>

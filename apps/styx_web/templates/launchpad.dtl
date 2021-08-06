@@ -1,0 +1,10 @@
+<div class="header">
+  <h2>
+    {{name}}
+  </h2>
+</div>
+
+<div class="mt-8">
+  <a href="/account" class="btn-submit">Edit account</a>
+  <a href="/account/logout" class="btn-submit mt-2">Logout</a>
+</div>

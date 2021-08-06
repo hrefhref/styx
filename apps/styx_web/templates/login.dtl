@@ -1,0 +1,21 @@
+<div class="header">
+  <h2>
+    Sign in
+  </h2>
+  <p>
+    Or
+    <a href="/register">
+      register an account
+    </a>
+  </p>
+</div>
+
+<div class="mt-8">
+
+  <div class="mt-6">{{form | safe}}</div>
+
+  <p class="mt-4 text-sm">
+     <a href="/account/recovery">Forgot your password ?</a>
+  </p>
+
+</div>

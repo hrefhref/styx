@@ -1,0 +1,4 @@
+<div class="mt-8">
+  <a href="/login" class="btn-submit">Login</a>
+  <a href="/register" class="btn-submit mt-2">Register</a>
+</div>
