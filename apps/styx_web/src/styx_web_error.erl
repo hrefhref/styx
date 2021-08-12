@@ -2,8 +2,13 @@
 -behaviour(cowboy_handler).
 -export([init/2]).
 
+init(Req, not_found) ->
+    reply(Req, 404, <<"Not Found">>, undefined);
 init(Req, State = #{code := Code, status := Status}) ->
     reply(Req, Code, Status, maps:get(message, State, undefined));
+init(Req, oauth2) ->
+    {ok, ErrorDescription} = styx_web:req_param(Req, <<"error_description">>),
+    reply(Req, 500, <<"Error">>, ErrorDescription);
 init(Req = #{method := <<"GET">>}, State) ->
     {ok, ErrorId} = styx_web:req_param(Req, <<"id">>),
     {ok, Error} = ory_kratos:error(ErrorId),

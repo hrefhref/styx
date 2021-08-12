@@ -1,3 +1,5 @@
+dsn: "sqlite:///Users/href/dev/styx/priv/hydra.sqlite?_fk=true&mode=rwc"
+
 serve:
   cookies:
     same_site_mode: Lax

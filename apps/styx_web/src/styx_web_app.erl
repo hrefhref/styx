@@ -42,6 +42,8 @@ routes() ->
               %% Hydra
               {"/account/oauth2/login", styx_web_oauth2_login, undefined},
               {"/account/oauth2/consent", styx_web_oauth2_consent, undefined},
+              {"/account/oauth2/logout", styx_web_oauth2_logout, undefined},
+              {"/account/oauth2/error", styx_web_error, oauth2},
 
               %% Static
               {"/account/app.css", cowboy_static, {priv_file, styx_web, "assets/app.css"}},
