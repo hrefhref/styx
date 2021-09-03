@@ -28,9 +28,9 @@ get(Req0, State, {ok, Challenge}) ->
             logger:debug("Got challenge for auth req ~p", [Request]),
             authenticate(Req, State, Request);
         {error, Error = #{<<"code">> := Code, <<"status">> := Status, <<"message">> := Msg}} ->
-            styx_web_error:init(Req0, #{code => Code, status => status, message => maps:get(<<"reason">>, Error, Msg)})
+            styx_web_error:init(Req0, #{code => Code, status => Status, message => maps:get(<<"reason">>, Error, Msg)})
     end;
-get(Req, State, {error, {missing_param, _}}) ->
+get(Req, _State, {error, {missing_param, _}}) ->
     styx_web_error:init(Req, not_found).
 
 authenticate(Req, State, Request) ->
@@ -50,7 +50,7 @@ challenge(Req0, State, #{<<"challenge">> := Challenge}, undefined) ->
     {ok, Req, State};
 %% XXX: What's the point of loggin in the user again?
 %%challenge(Req, State, Request = #{<<"skip">> := false}, Session) ->
-challenge(Req0, State, Request = #{<<"challenge">> := Challenge}, Session = #{<<"active">> := true, <<"identity">> := #{<<"id">> := Id, <<"traits">> := Traits}}) ->
+challenge(Req0, State, #{<<"challenge">> := Challenge}, #{<<"active">> := true, <<"identity">> := #{<<"id">> := Id, <<"traits">> := Traits}}) ->
     Data = #{<<"subject">> => Id, <<"remember">> => true, <<"remember_for">> => ?REMEMBER_MAX_AGE, <<"context">> => Traits},
     case ory_hydra:accept_login_request(Challenge, Data) of
         {ok, #{<<"redirect_to">> := Redirect}} ->

@@ -9,9 +9,8 @@ init(Req, State = #{code := Code, status := Status}) ->
 init(Req, oauth2) ->
     {ok, ErrorDescription} = styx_web:req_param(Req, <<"error_description">>),
     reply(Req, 500, <<"Error">>, ErrorDescription);
-init(Req = #{method := <<"GET">>}, State) ->
+init(Req = #{method := <<"GET">>}, _) ->
     {ok, ErrorId} = styx_web:req_param(Req, <<"id">>),
-    {ok, Error} = ory_kratos:error(ErrorId),
     {ok, #{<<"error">> := #{<<"status">> := Status, <<"code">> := Code, <<"message">> := Msg}}} = ory_kratos:error(ErrorId),
     reply(Req, Code, Status, Msg).
 

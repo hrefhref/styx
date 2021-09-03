@@ -69,7 +69,7 @@ api_response(Error = {error, Error}) ->
 api_response({ok, 200, _, Client}) ->
     {ok, Body} = hackney:body(Client),
     {ok, jsone:decode(Body)};
-api_response({ok, Code, _, Client}) ->
+api_response({ok, _Code, _, Client}) ->
     {ok, Body} = hackney:body(Client),
     JSON = #{<<"error">> := Error} = jsone:decode(Body),
     logger:debug("hydra error: ~p", [JSON]),

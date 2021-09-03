@@ -4,7 +4,7 @@
 login_request(Challenge) ->
     Url = [admin_url(), "/oauth2/auth/requests/login?login_challenge=", Challenge],
     Headers = [{"accept", "application/json"}],
-    api_response(hackney:request(get, Url, [], <<>>, [])).
+    api_response(hackney:request(get, Url, Headers, <<>>, [])).
 
 accept_login_request(Challenge, Data) ->
     Url = [admin_url(), "/oauth2/auth/requests/login/accept?login_challenge=", Challenge],
@@ -15,7 +15,7 @@ accept_login_request(Challenge, Data) ->
 consent_request(Challenge) ->
     Url = [admin_url(), "/oauth2/auth/requests/consent?consent_challenge=", Challenge],
     Headers = [{"accept", "application/json"}],
-    api_response(hackney:request(get, Url, [], <<>>, [])).
+    api_response(hackney:request(get, Url, Headers, <<>>, [])).
 
 accept_consent_request(Challenge, Data) ->
     Url = [admin_url(), "/oauth2/auth/requests/consent/accept?consent_challenge=", Challenge],
@@ -44,7 +44,7 @@ api_response(Error = {error, Error}) ->
 api_response({ok, 200, _, Client}) ->
     {ok, Body} = hackney:body(Client),
     {ok, jsone:decode(Body)};
-api_response({ok, Code, _, Client}) ->
+api_response({ok, _Code, _, Client}) ->
     {ok, Body} = hackney:body(Client),
     JSON = #{<<"error">> := Error} = jsone:decode(Body),
     logger:debug("hydra error: ~p", [JSON]),

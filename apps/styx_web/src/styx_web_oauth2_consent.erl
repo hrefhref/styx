@@ -18,19 +18,19 @@ init_(Req, _, {error, {missing_param, _}}) ->
 
 authentication(Req0, State, Challenge, {ok, Session = #{<<"active">> := true}}) ->
     do(Req0, State, Session, ory_hydra:consent_request(Challenge));
-authentication(Req0, State, _, Error) ->
-    error(Req0, State, Error).
+authentication(Req0, State, _Challenge, Error) ->
+    render_error(Req0, State, Error).
 
-do(Req0 = #{method := <<"GET">>}, State, Session, {ok, Flow = #{<<"skip">> := true, <<"requested_scope">> := Scopes}}) ->
+do(Req0 = #{method := <<"GET">>}, State, _Session, {ok, #{<<"challenge">> := Challenge, <<"skip">> := true, <<"requested_scope">> := Scopes}}) ->
     ConsentData = #{<<"grant_scope">> => Scopes},
     case ory_hydra:accept_consent_request(Challenge, ConsentData) of
         {ok, #{<<"redirect_to">> := Url}} ->
             Req = styx_web:temporary_redirect(Req0, Url),
             {ok, Req, State};
         Error ->
-            error(Req0, State, Error)
+            render_error(Req0, State, Error)
     end;
-do(Req0 = #{method := <<"GET">>}, State, Session, {ok, Flow = #{<<"client">> := Client}}) ->
+do(Req0 = #{method := <<"GET">>}, State, _Session, {ok, Flow = #{<<"client">> := Client}}) ->
     %% FIXME client_name can be blank, not just undefined.
     logger:debug("oAuth request ~p", [Flow]),
     AppName = maps:get(<<"client_name">>, Client, maps:get(<<"client_id">>, Client, <<"Unnamed App">>)),
@@ -62,18 +62,18 @@ consent(Req0, State, _Session, #{<<"challenge">> := Challenge}, Data, true) ->
             Req = styx_web:temporary_redirect(Req0, Url),
             {ok, Req, State};
         Error ->
-            error(Req0, State, Error)
+            render_error(Req0, State, Error)
     end;
-consent(Req0, State, _Session, #{<<"challenge">> := Challenge}, _, false) ->
+consent(Req0, State, _Session, #{<<"challenge">> := Challenge}, _Data, false) ->
     Data = #{<<"error">> => <<"User denied access.">>, <<"status_code">> => 403},
     case ory_hydra:reject_consent_request(Challenge, Data) of
         {ok, #{<<"redirect_to">> := Url}} ->
             Req = styx_web:temporary_redirect(Req0, Url),
             {ok, Req, State};
         Error ->
-            error(Req0, State, Error)
+            render_error(Req0, State, Error)
     end.
 
 
-error(Req, State, {error, Error = #{<<"code">> := Code, <<"status">> := Status, <<"message">> := Msg}}) ->
+render_error(Req, _State, {error, #{<<"code">> := Code, <<"status">> := Status, <<"message">> := Msg}}) ->
     styx_web_error:init(Req, #{code => Code, status => Status, message => Msg}).

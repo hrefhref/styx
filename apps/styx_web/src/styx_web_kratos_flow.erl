@@ -21,5 +21,5 @@ get_(Req0, State = #{page_title := PageTitle, template := Template}, {ok, Flow =
     Html = styx_web:render(Req0, Template, Assigns),
     Req = styx_web:reply_html(Req0, 200, Html),
     {ok, Req, State};
-get_(Req, State, {error, Error = #{<<"code">> := Code, <<"status">> := Status, <<"message">> := Msg}}) ->
+get_(Req, _State, {error, Error = #{<<"code">> := Code, <<"status">> := Status, <<"message">> := Msg}}) ->
     styx_web_error:init(Req, #{code => Code, status => Status, message => maps:get(<<"reason">>, Error, Msg)}).

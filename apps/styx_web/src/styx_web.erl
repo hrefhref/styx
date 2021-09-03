@@ -52,7 +52,7 @@ req_param(Req, Param) ->
             {error, {missing_param, Param}}
     end.
 
-render_node([#{<<"attributes">> := Attrs = #{<<"name">> := AttrName, <<"type">> := AttrType}, <<"type">> := <<"input">>, <<"messages">> := Msgs, <<"meta">> := Meta} | Rest], Acc) ->
+render_node([#{<<"attributes">> := Attrs = #{<<"name">> := AttrName, <<"type">> := AttrType}, <<"type">> := <<"input">>, <<"messages">> := _Msgs, <<"meta">> := Meta} | Rest], Acc) ->
     Assigns0 = [{"input_name", AttrName},
                 {"input_type", AttrType},
                 {"input_value", maps:get(<<"value">>, Attrs, undefined)},
