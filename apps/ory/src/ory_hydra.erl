@@ -1,5 +1,5 @@
 -module(ory_hydra).
--export([url/0, admin_url/0, login_request/1, accept_login_request/2, consent_request/1, accept_consent_request/2, reject_consent_request/2]).
+-export([url/0, admin_url/0, userinfo/1, login_request/1, accept_login_request/2, consent_request/1, accept_consent_request/2, reject_consent_request/2]).
 
 login_request(Challenge) ->
     Url = [admin_url(), "/oauth2/auth/requests/login?login_challenge=", Challenge],
@@ -29,6 +29,10 @@ reject_consent_request(Challenge, Data) ->
     Json = jsone:encode(Data),
     api_response(hackney:request(put, Url, Headers, Json, [])).
 
+userinfo(Authorization) ->
+    Url = [url(), "/userinfo"],
+    Headers = [{"accept", "application/json"}, {"authorization", Authorization}],
+    api_response(hackney:request(get, Url, Headers, <<>>, [])).
 
 admin_url() ->
     {ok, Value} = application:get_env(ory, hydra_admin_url),

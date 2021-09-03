@@ -1,7 +1,8 @@
 -module(ory_kratos).
 
--export([login_url/1, registration_url/1, settings_url/1, recovery_url/1, verification_url/1, url/0]).
+-export([login_url/1, registration_url/1, settings_url/1, recovery_url/1, verification_url/1, url/0, admin_url/0]).
 -export([registration_flow/2, login_flow/2, settings_flow/2, recovery_flow/2, verification_flow/2, logout_flow/1, whoami/1, error/1]).
+-export([get_identity/1]).
 
 login_url(browser) ->
     [url(), "/self-service/login/browser"].
@@ -20,6 +21,10 @@ verification_url(browser) ->
 
 url() ->
     {ok, Value} = application:get_env(ory, kratos_url),
+    Value.
+
+admin_url() ->
+    {ok, Value} = application:get_env(ory, kratos_admin_url),
     Value.
 
 registration_flow(Cookie, Id) ->
@@ -59,9 +64,13 @@ whoami(Cookie) ->
 
 error(Id) ->
     Url = [url(), "/self-service/errors?id=", Id],
-    {ok, 200, _, Client} = hackney:request(get, Url, [], <<>>, []),
-    {ok, Body} = hackney:body(Client),
-    {ok, jsone:decode(Body)}.
+    Headers = [{"accept", "application/json"}],
+    api_response(hackney:request(get, Url, Headers, <<>>, [])).
+
+get_identity(Id) ->
+    Url = [admin_url(), "/identities/", Id],
+    Headers = [{"accept", "application/json"}],
+    api_response(hackney:request(get, Url, Headers, <<>>, [])).
 
 api_response(Error = {error, Error}) ->
     logger:error("ory_kratos hackney error: ~p", [Error]),

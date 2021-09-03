@@ -29,6 +29,7 @@ routes() ->
               %% App
               {"/", styx_web_index, undefined},
               {"/launchpad", styx_web_launchpad, undefined},
+              {"/userinfo", styx_web_userinfo, undefined},
 
               %% Kratos
               {"/login", styx_web_kratos_flow, #{page_title => "Login", template => login_dtl, getflowmf => {ory_kratos, login_flow}, initflowmf => {ory_kratos, login_url}}},
